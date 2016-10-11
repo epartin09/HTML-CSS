@@ -1,0 +1,1105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xml:lang="en">
+  <!--
+	Copyright 2006		UCIT
+	All rights Reserved
+
+	Program written by: Ryan McGovern
+
+	Style Designed by: 	Ian Monk
+
+	Icons by: 			Jackie Werle
+						Ian Monk
+
+	Management:			Steve Crump
+						Paul Schwab
+						Don Rainwatter
+
+	Other help:			Frank Young
+						Chris Siebert
+
+
+  //-->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link href="/stylesheets/scaffold.css?1330609033" media="screen" rel="stylesheet" type="text/css" />
+    
+      <link href="/stylesheets/magic.css?1330609033" media="screen" rel="stylesheet" type="text/css" />
+    
+      <link href="/stylesheets/files.css?1330609033" media="screen" rel="stylesheet" type="text/css" />
+    
+    <title>UCFileSpace Tools - Files </title>
+
+    <script src="/javascripts/prototype.js?1330609033" type="text/javascript"></script>
+<script src="/javascripts/effects.js?1330609033" type="text/javascript"></script>
+<script src="/javascripts/application.js?1330609033" type="text/javascript"></script>
+<script src="/javascripts/dragdrop.js?1330609033" type="text/javascript"></script>
+<script src="/javascripts/ajax2.js?1330609033" type="text/javascript"></script>
+<script src="/javascripts/FileHandler.js?1330609033" type="text/javascript"></script>
+<script src="/javascripts/tooltip.js?1330609033" type="text/javascript"></script>
+<script src="/javascripts/sidebar.js?1330609033" type="text/javascript"></script>
+<script src="/javascripts/dragdrop.js?1330609033" type="text/javascript"></script>
+<script src="/javascripts/controls.js?1330609033" type="text/javascript"></script>
+<script src="/javascripts/clock.js?1330609033" type="text/javascript"></script>
+<script src="/javascripts/showhide.js?1330609033" type="text/javascript"></script>
+  </head>
+
+  <body>
+    <div id="grayout" style="display:none;"></div>
+    <div id="center">
+
+      <div id="toolTip"></div>
+      <div id='popdown' style="display:none;"></div>
+
+      <div id="container">
+
+        <div id="banner">
+
+          <div id="left_banner_box">
+            <div id="loading_box">
+              <div id ='loading' style="color:#e00122; display:none">LOADING...</div>
+              <div id ='loading2' style="visibility:hidden;"></div>
+
+            </div>
+
+          </div>
+          <div id="right_banner_box">
+            <a href="/wiki/search/About%20Tools?miniview=true"  onclick="window.open(this.href,'new_window','height=350,width=700,scrollbars=no,');return false;" id="help"></a>
+
+            <a href="http://www.uc.edu" id="uclink"></a>
+          </div>
+
+          <div style="background-color:white;position:absolute;top:0; left:0;" id='debug'></div>
+        </div> <!-- banner -->
+
+        <div id="menubar">
+
+          <div id="clockbar">
+            <div id="username">
+              partiner
+            </div>
+            <!--
+            &nbsp;|&nbsp;
+            <div id="date"></div>
+            &nbsp;|&nbsp;
+            <div id="clock">
+              <script language="javascript">
+                startTime();
+              </script>
+            </div>
+
+            
+					<a href="#" onClick="changePref();" id="switch" class="time">
+					<script language="javascript">
+					getPref();
+					</script>
+					</a>
+					//-->
+
+          </div> <!--clockbar -->
+
+          <div style="display:none;background-color:white;position:absolute;top:0; left:0;" id='debug'></div>
+
+          <ul id='nav'>
+  
+    
+      
+        
+            <li>
+            
+              <a href="/account">MyAccount</a>
+            
+            </li>
+        
+      
+        
+            <li>
+            
+              <div class='curtab'>MyFiles</div>
+            
+            </li>
+        
+      
+        
+            <li>
+            
+              <a href="/website">MySites</a>
+            
+            </li>
+        
+      
+        
+            <li>
+            
+              <a href="/database">MyDatabase</a>
+            
+            </li>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+  
+</ul>
+
+<ul id='nav' style="float: right">
+      
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+            <li>
+            
+              <a href="/">News</a>
+            
+            </li>
+        
+      
+        
+            <li>
+            
+              <a href="/wiki/services">Services</a>
+            
+            </li>
+        
+      
+        
+            <li>
+            
+              <a href="/wiki/help">Support</a>
+            
+            </li>
+        
+      
+        
+            <li>
+            
+              <b><a href="/auth/logout">Logout</a></b>
+            
+            </li>
+        
+      
+    
+  
+</ul>
+
+            <!--
+        < %if func.name=="File"%>
+          <li>
+              < %=link_to_unless_current("MyFiles",:controller=>func.controller, :action=>func.action){|name| "<div class='curtab'>" + name + "</div>"}%>
+          </li>
+        < %elsif func.name=="Sites"%>
+          <li>
+              < %=link_to_unless_current("MySite",:controller=>func.controller, :action=>func.action){|name| "<div class='curtab'>" + name + "</div>"}%>
+          </li>
+        < %elsif func.name=="Home"%>
+          <li>
+              < %=link_to_unless_current(func.name,:controller=>func.controller, :action=>func.action){|name| "<div class='curtab'>" + name + "</div>"}%>
+          </li>
+        < %elsif func.name=="Logout"%>
+          <li>
+              < %=link_to_unless_current(func.name,:controller=>func.controller, :action=>func.action){|name| "<div class='curtab'>" + name + "</div>"}%>
+          </li>
+        < %else%>
+          <li>
+            < %=link_to_unless_current(func.name,:controller=>func.controller, :action=>func.action){|name| "<div class='curtab'>" + name + "</div>"}%>
+          </li>
+        < %end%>
+            -->
+
+  <!--
+         <li>
+        < %=link_to_unless_current("Help",:controller=>:wiki, :action=>:help){|name| "<div class='curtab'>" + name + "</div>"}%>
+         </li>
+         -->
+         
+
+
+        </div> <!-- menubar -->
+
+
+        <div id='content'>
+          <div id="holdopen"></div>
+          <div id="alert"  onmouseover="" onmouseout=""></div>
+          <script type="text/javascript">
+
+    $('alert').style.visibility = 'hidden';
+    $('alert').innerHTML= '...';
+
+          </script>
+          <div id='space' style="visibility: hidden;"><img src="https://ucfilespace.uc.edu/images/loading.gif" alt="Loading" height="25" width="25"></img></div>
+           <div id='space2' style="visibility: hidden;">just a space holder</div>
+
+
+
+
+
+
+<div id="sidebar">
+	
+	<div id="sidecontent">
+		
+	<div id="context">
+		<span class="label" style="margin-left:10px;">
+             		partiner
+			
+		</span>
+		<div id="options">
+            	
+	<a href="#" onclick="new Ajax.Updater('popdown', '/file/properties?contextroller=file&amp;path=%2F', {asynchronous:true, evalScripts:true}); return false;">Properties</a>
+
+
+		</div>
+	</div>
+	
+	<div id="filetree">
+		<div id="filetree_inside">
+                	<div class='tab2'>
+		<div class="sideitem" id="tab_2f">
+			<div class='sideimg' id="imgtree_2f" 	onclick="ToggleMenu('tree_2f','/file/sidebar?path=%2F')">
+				<div class='sidename'>
+
+					<a href="#" onclick="new Ajax.Updater('filebody', '/file/list?path=%2F', {asynchronous:true, evalScripts:true, onComplete:function(request){expand('tree_2f')}}); return false;">partiner</a>
+				</div>
+			</div>
+		</div>
+		<div style='display:none' class='tree' id='tree_2f'></div>
+	</div>
+
+
+
+		</div>
+	</div>
+	
+	</div>
+</div>
+	
+<script type='text/javascript'>
+	  //<![CDATA[
+  Droppables.add("tab_2f", 
+  	{
+  		 hoverclass:'bold', 
+  		onDrop:function(element,ele2){
+  			element.onclick=null;
+  		new Ajax.Updater('popdown', "/file/drop?path=%2F&amp;self_path=%2F", {asynchronous:true, evalScripts:true, parameters:'id=' + encodeURIComponent(element.id)});
+
+
+
+  			var side=$("tab"+element.id.substr(4))|| "null";
+  			var pattern=/^tab/;
+  			if(side!="null")
+  			{
+  				side.parentNode.removeChild(side);
+  	
+
+  			}
+  	  	
+  			element.parentNode.removeChild(element);
+  		
+  		}
+
+      
+  	}
+  );
+  //]]>
+
+     	  //<![CDATA[
+  Droppables.add("tab_2f", 
+  	{
+  		 hoverclass:'bold', 
+  		onDrop:function(element,ele2){
+  			element.onclick=null;
+  		new Ajax.Updater('popdown', "/file/drop?path=%2F&amp;self_path=%2F", {asynchronous:true, evalScripts:true, parameters:'id=' + encodeURIComponent(element.id)});
+
+
+
+  			var side=$("tab"+element.id.substr(4))|| "null";
+  			var pattern=/^tab/;
+  			if(side!="null")
+  			{
+  				side.parentNode.removeChild(side);
+  	
+
+  			}
+  	  	
+  			element.parentNode.removeChild(element);
+  		
+  		}
+
+      
+  	}
+  );
+  //]]>
+
+</script>
+
+
+
+<div id="filebody">
+	<div id="top">
+		<div id='navops'>
+		<div id="toolbox">
+  <table cellpadding="0" cellspacing="0" >
+    <tr><td>
+        <table id="toolbar" cellpadding="0" cellspacing="0" >
+          <tr>
+            <td><div class="tb_front"></div></td>
+            <!-- <td>
+    <a href='#' id='u_arr' onclick="new Ajax.Updater('filebody','/file/list?path=%2F',{asynchronous:true, evalScripts:true});return false;"></a>
+    </td> -->
+            <td>
+    <a href='#' id='u_arr' onclick="new Ajax.Updater('filebody','/file/list?path=%2F',{asynchronous:true, evalScripts:true});return false;"></a>
+    </td>
+            <td><a href="#" id="l_arr" onclick="new Ajax.Updater('filebody', '/file/back', {asynchronous:true, evalScripts:true}); return false;"></a></td>
+            <td><a href="#" id="r_arr" onclick="new Ajax.Updater('filebody', '/file/forward', {asynchronous:true, evalScripts:true}); return false;"></a></td>
+            <td><div class="tb_end"></div></td>
+            <td><div class="spacer"></div></td>
+            <td><div class="tb_front"></div></td>
+            <td><a href="#" id="v_list" onclick="new Ajax.Updater('filebody', '/file/list?path=%2F&amp;viewtype=list', {asynchronous:true, evalScripts:true}); return false;"></a></td>
+            <td><a href="#" id="v_icon" onclick="new Ajax.Updater('filebody', '/file/list?path=%2F&amp;viewtype=icon', {asynchronous:true, evalScripts:true}); return false;"></a></td>
+            <td><div class="tb_end"></div></td>
+            <td><div class="spacer"></div></td>
+            <td><div class="tb_front"></div></td>
+            
+              <td><a href="#" id="new" onclick="new Ajax.Updater('popdown', '/file/newfolder?path=%2F', {asynchronous:true, evalScripts:true}); return false;"></a></td>
+            
+            
+              <td><a href="#" id="upload" onclick="new Ajax.Updater('popdown', '/file/upload?path=%2F', {asynchronous:true, evalScripts:true, method:'get'}); return false;"></a></td>
+            
+            <td><a href="#" id="prefs" onclick="new Ajax.Updater('popdown', '/file/preferences?path=%2F', {asynchronous:true, evalScripts:true, method:'get'}); return false;"></a></td>
+            <td><div class="tb_end"></div></td>
+            <td><div class="spacer"></div></td>
+            <td><div class="tb_front"></div></td>
+            <td><a href="/wiki/search/About%20File%20Browser?miniview=true"  onclick="window.open(this.href,'new_window','height=350,width=900,scrollbars=yes');return false;" id="fhelp"></a></td>
+            <td><div class="tb_end"></div></td>
+            <td><div class="spacer"></div></td>
+          </tr>
+          <tr></tr>
+        </table>
+      </td>
+      <td style="border-width:1px;border-color: #DC143C ;border-collapse: separate;
+          background-image:url('../images/sharefinder_bkg.jpg');background-repeat:no-repeat; background-size: auto;"><font color="yellow">&nbsp;ShareFinder</font>
+
+
+        <input type="text" id="suggest_text" name="name" size="15"
+               onfocus="if($F('suggest_text').length == 0){$('suggest_top6').style.visibility='visible';}"
+               onkeyup="if($F('suggest_text').length > 0)
+                 { $('suggest').innerHTML = '';
+                   new Ajax.Updater('suggest','/file/search_user?strs='+$F('suggest_text'),
+                   {asynchronous:true, evalScripts:true});
+                   $('suggest_top6').style.visibility='hidden';
+                   $('suggest').style.visibility='visible';
+                 }
+                 else
+                 {$('suggest').style.visibility='hidden';
+                   $('suggest_top6').style.visibility='visible';}"
+               autocomplete="off"></input>
+        &nbsp;<br />
+        <div id="suggest" style="visibility:hidden"></div>
+        <div id="suggest_top6"  style="visibility: hidden"></div>
+
+      </td>
+
+
+    </tr>
+  </table>
+</div>
+
+<div id="breadcrumbs">
+  Path: <b>/partiner</b>
+</div>
+<script type='text/javascript'>
+new Ajax.Updater('suggest_top6','/file/suggest_top6',{method:'get',asynchronous:true, evalScripts:true});
+  function hidetop6div(e){
+    var div=document.getElementById('suggest_top6');
+    var div2=document.getElementById('suggest_text');
+
+    var target=e?e.target:event.srcElement;
+    if(target!=div){
+      if(target!=div2){
+        $('suggest_top6').style.visibility='hidden';
+      }
+    }
+  }
+  document.onclick=hidetop6div
+</script>
+                </div>
+		<div id='dirinfo'>
+		
+		There are 6 Items using 
+		<div id='deepsize'style='display:inline'>-</div>&nbsp;of space
+		<script>new Ajax.Updater('deepsize',"/file/getsize?path=%2F",{asynchronous:true, evalScripts:true});</script>
+          <!-- <script type='text/javascript'>
+			
+            </script>-->
+	
+		</div>
+          
+	</div>
+	
+	<div id="filebox_outer">
+		<div id="filebox">
+			<div id='fileList' onclick="BGClick('/file/context?path=%2F')">
+				
+		<script type='text/javascript'>
+			expand("tree_2f");
+			Draggables.drags=[];
+			Droppables.clean();	
+		</script>
+		<script type='text/javascript'>
+	$("tree_2f").innerHTML="";
+	
+</script>
+
+
+
+<script type='text/javascript'>
+
+if(!$("tree_2f446f63756d656e7473"))
+{
+	
+	if(!Element.visible("tree_2f"))
+	{
+		expand("tree_2f");
+	}
+	new Insertion.Bottom('tree_2f','	<div class=\'tab2\'>\n		<div class=\"sideitem\" id=\"tab_2f446f63756d656e7473\">\n			<div class=\'sideimg\' id=\"imgtree_2f446f63756d656e7473\" 	onclick=\"ToggleMenu(\'tree_2f446f63756d656e7473\',\'/file/sidebar?path=%2FDocuments\')\">\n				<div class=\'sidename\'>\n\n					<a href=\"#\" onclick=\"new Ajax.Updater(\'filebody\', \'/file/list?path=%2FDocuments\', {asynchronous:true, evalScripts:true, onComplete:function(request){expand(\'tree_2f446f63756d656e7473\')}}); return false;\">Documents<\/a>\n				<\/div>\n			<\/div>\n		<\/div>\n		<div style=\'display:none\' class=\'tree\' id=\'tree_2f446f63756d656e7473\'><\/div>\n	<\/div>\n\n\n')
+}
+</script>
+
+<script type='text/javascript'>
+  
+  //<![CDATA[
+  Droppables.add("tab_2f446f63756d656e7473", 
+  	{
+  		 hoverclass:'bold', 
+  		onDrop:function(element,ele2){
+  			element.onclick=null;
+  		new Ajax.Updater('popdown', "/file/drop?path=%2F&amp;self_path=%2FDocuments", {asynchronous:true, evalScripts:true, parameters:'id=' + encodeURIComponent(element.id)});
+
+
+
+  			var side=$("tab"+element.id.substr(4))|| "null";
+  			var pattern=/^tab/;
+  			if(side!="null")
+  			{
+  				side.parentNode.removeChild(side);
+  	
+
+  			}
+  	  	
+  			element.parentNode.removeChild(element);
+  		
+  		}
+
+      
+  	}
+  );
+  //]]>
+
+
+    
+
+
+</script>
+
+
+
+<script type='text/javascript'>
+
+if(!$("tree_2f4d6f76696573"))
+{
+	
+	if(!Element.visible("tree_2f"))
+	{
+		expand("tree_2f");
+	}
+	new Insertion.Bottom('tree_2f','	<div class=\'tab2\'>\n		<div class=\"sideitem\" id=\"tab_2f4d6f76696573\">\n			<div class=\'sideimg\' id=\"imgtree_2f4d6f76696573\" 	onclick=\"ToggleMenu(\'tree_2f4d6f76696573\',\'/file/sidebar?path=%2FMovies\')\">\n				<div class=\'sidename\'>\n\n					<a href=\"#\" onclick=\"new Ajax.Updater(\'filebody\', \'/file/list?path=%2FMovies\', {asynchronous:true, evalScripts:true, onComplete:function(request){expand(\'tree_2f4d6f76696573\')}}); return false;\">Movies<\/a>\n				<\/div>\n			<\/div>\n		<\/div>\n		<div style=\'display:none\' class=\'tree\' id=\'tree_2f4d6f76696573\'><\/div>\n	<\/div>\n\n\n')
+}
+</script>
+
+<script type='text/javascript'>
+  
+  //<![CDATA[
+  Droppables.add("tab_2f4d6f76696573", 
+  	{
+  		 hoverclass:'bold', 
+  		onDrop:function(element,ele2){
+  			element.onclick=null;
+  		new Ajax.Updater('popdown', "/file/drop?path=%2F&amp;self_path=%2FMovies", {asynchronous:true, evalScripts:true, parameters:'id=' + encodeURIComponent(element.id)});
+
+
+
+  			var side=$("tab"+element.id.substr(4))|| "null";
+  			var pattern=/^tab/;
+  			if(side!="null")
+  			{
+  				side.parentNode.removeChild(side);
+  	
+
+  			}
+  	  	
+  			element.parentNode.removeChild(element);
+  		
+  		}
+
+      
+  	}
+  );
+  //]]>
+
+
+    
+
+
+</script>
+
+
+
+<script type='text/javascript'>
+
+if(!$("tree_2f4d75736963"))
+{
+	
+	if(!Element.visible("tree_2f"))
+	{
+		expand("tree_2f");
+	}
+	new Insertion.Bottom('tree_2f','	<div class=\'tab2\'>\n		<div class=\"sideitem\" id=\"tab_2f4d75736963\">\n			<div class=\'sideimg\' id=\"imgtree_2f4d75736963\" 	onclick=\"ToggleMenu(\'tree_2f4d75736963\',\'/file/sidebar?path=%2FMusic\')\">\n				<div class=\'sidename\'>\n\n					<a href=\"#\" onclick=\"new Ajax.Updater(\'filebody\', \'/file/list?path=%2FMusic\', {asynchronous:true, evalScripts:true, onComplete:function(request){expand(\'tree_2f4d75736963\')}}); return false;\">Music<\/a>\n				<\/div>\n			<\/div>\n		<\/div>\n		<div style=\'display:none\' class=\'tree\' id=\'tree_2f4d75736963\'><\/div>\n	<\/div>\n\n\n')
+}
+</script>
+
+<script type='text/javascript'>
+  
+  //<![CDATA[
+  Droppables.add("tab_2f4d75736963", 
+  	{
+  		 hoverclass:'bold', 
+  		onDrop:function(element,ele2){
+  			element.onclick=null;
+  		new Ajax.Updater('popdown', "/file/drop?path=%2F&amp;self_path=%2FMusic", {asynchronous:true, evalScripts:true, parameters:'id=' + encodeURIComponent(element.id)});
+
+
+
+  			var side=$("tab"+element.id.substr(4))|| "null";
+  			var pattern=/^tab/;
+  			if(side!="null")
+  			{
+  				side.parentNode.removeChild(side);
+  	
+
+  			}
+  	  	
+  			element.parentNode.removeChild(element);
+  		
+  		}
+
+      
+  	}
+  );
+  //]]>
+
+
+    
+
+
+</script>
+
+
+
+<script type='text/javascript'>
+
+if(!$("tree_2f5069637475726573"))
+{
+	
+	if(!Element.visible("tree_2f"))
+	{
+		expand("tree_2f");
+	}
+	new Insertion.Bottom('tree_2f','	<div class=\'tab2\'>\n		<div class=\"sideitem\" id=\"tab_2f5069637475726573\">\n			<div class=\'sideimg\' id=\"imgtree_2f5069637475726573\" 	onclick=\"ToggleMenu(\'tree_2f5069637475726573\',\'/file/sidebar?path=%2FPictures\')\">\n				<div class=\'sidename\'>\n\n					<a href=\"#\" onclick=\"new Ajax.Updater(\'filebody\', \'/file/list?path=%2FPictures\', {asynchronous:true, evalScripts:true, onComplete:function(request){expand(\'tree_2f5069637475726573\')}}); return false;\">Pictures<\/a>\n				<\/div>\n			<\/div>\n		<\/div>\n		<div style=\'display:none\' class=\'tree\' id=\'tree_2f5069637475726573\'><\/div>\n	<\/div>\n\n\n')
+}
+</script>
+
+<script type='text/javascript'>
+  
+  //<![CDATA[
+  Droppables.add("tab_2f5069637475726573", 
+  	{
+  		 hoverclass:'bold', 
+  		onDrop:function(element,ele2){
+  			element.onclick=null;
+  		new Ajax.Updater('popdown', "/file/drop?path=%2F&amp;self_path=%2FPictures", {asynchronous:true, evalScripts:true, parameters:'id=' + encodeURIComponent(element.id)});
+
+
+
+  			var side=$("tab"+element.id.substr(4))|| "null";
+  			var pattern=/^tab/;
+  			if(side!="null")
+  			{
+  				side.parentNode.removeChild(side);
+  	
+
+  			}
+  	  	
+  			element.parentNode.removeChild(element);
+  		
+  		}
+
+      
+  	}
+  );
+  //]]>
+
+
+    
+
+
+</script>
+
+
+
+<script type='text/javascript'>
+
+if(!$("tree_2f5369746573"))
+{
+	
+	if(!Element.visible("tree_2f"))
+	{
+		expand("tree_2f");
+	}
+	new Insertion.Bottom('tree_2f','	<div class=\'tab2\'>\n		<div class=\"sideitem\" id=\"tab_2f5369746573\">\n			<div class=\'sideimg\' id=\"imgtree_2f5369746573\" 	onclick=\"ToggleMenu(\'tree_2f5369746573\',\'/file/sidebar?path=%2FSites\')\">\n				<div class=\'sidename\'>\n\n					<a href=\"#\" onclick=\"new Ajax.Updater(\'filebody\', \'/file/list?path=%2FSites\', {asynchronous:true, evalScripts:true, onComplete:function(request){expand(\'tree_2f5369746573\')}}); return false;\">Sites<\/a>\n				<\/div>\n			<\/div>\n		<\/div>\n		<div style=\'display:none\' class=\'tree\' id=\'tree_2f5369746573\'><\/div>\n	<\/div>\n\n\n')
+}
+</script>
+
+<script type='text/javascript'>
+  
+  //<![CDATA[
+  Droppables.add("tab_2f5369746573", 
+  	{
+  		 hoverclass:'bold', 
+  		onDrop:function(element,ele2){
+  			element.onclick=null;
+  		new Ajax.Updater('popdown', "/file/drop?path=%2F&amp;self_path=%2FSites", {asynchronous:true, evalScripts:true, parameters:'id=' + encodeURIComponent(element.id)});
+
+
+
+  			var side=$("tab"+element.id.substr(4))|| "null";
+  			var pattern=/^tab/;
+  			if(side!="null")
+  			{
+  				side.parentNode.removeChild(side);
+  	
+
+  			}
+  	  	
+  			element.parentNode.removeChild(element);
+  		
+  		}
+
+      
+  	}
+  );
+  //]]>
+
+
+    
+
+
+</script>
+
+
+
+<script type='text/javascript'>
+
+if(!$("tree_2f2e7472617368"))
+{
+	
+	if(!Element.visible("tree_2f"))
+	{
+		expand("tree_2f");
+	}
+	new Insertion.Bottom('tree_2f','	<div class=\'tab2\'>\n		<div class=\"sideitem\" id=\"tab_2f2e7472617368\">\n			<div class=\'sideimg\' id=\"imgtree_2f2e7472617368\" 	onclick=\"ToggleMenu(\'tree_2f2e7472617368\',\'/file/sidebar?path=%2F.trash\')\">\n				<div class=\'sidename\'>\n\n					<a href=\"#\" onclick=\"new Ajax.Updater(\'filebody\', \'/file/list?path=%2F.trash\', {asynchronous:true, evalScripts:true, onComplete:function(request){expand(\'tree_2f2e7472617368\')}}); return false;\">Trash&nbsp;Can<\/a>\n				<\/div>\n			<\/div>\n		<\/div>\n		<div style=\'display:none\' class=\'tree\' id=\'tree_2f2e7472617368\'><\/div>\n	<\/div>\n\n\n')
+}
+</script>
+
+<script type='text/javascript'>
+  
+  //<![CDATA[
+  Droppables.add("tab_2f2e7472617368", 
+  	{
+  		 hoverclass:'bold', 
+  		onDrop:function(element,ele2){
+  			element.onclick=null;
+  		new Ajax.Updater('popdown', "/file/drop?path=%2F&amp;self_path=%2F.trash", {asynchronous:true, evalScripts:true, parameters:'id=' + encodeURIComponent(element.id)});
+
+
+
+  			var side=$("tab"+element.id.substr(4))|| "null";
+  			var pattern=/^tab/;
+  			if(side!="null")
+  			{
+  				side.parentNode.removeChild(side);
+  	
+
+  			}
+  	  	
+  			element.parentNode.removeChild(element);
+  		
+  		}
+
+      
+  	}
+  );
+  //]]>
+
+
+    
+
+
+</script>
+
+
+
+	
+		
+		
+			
+		 <a class='hatch' href='#'>
+        <div id="item_2f446f63756d656e7473" class='item folder t- DOCUMENTS' > 
+        <div onmouseover="showToolTip('Documents')" onmouseout="hideToolTip()" class='itemName' >
+        Documents 
+        
+        </div>
+        </div>
+        </a><script type='text/javascript'>
+        new Item("item_2f446f63756d656e7473",'folder',"/file/context?path=%2FDocuments","/file/list?path=%2FDocuments");
+        </script>
+
+<script type='text/javascript'>
+//type dir path accpet
+  //<![CDATA[
+  Droppables.add("item_2f446f63756d656e7473", 
+  	{
+  		 hoverclass:'bold', 
+  		onDrop:function(element,ele2){
+  			element.onclick=null;
+  		new Ajax.Updater('popdown', "/file/drop?path=%2F&amp;self_path=%2FDocuments", {asynchronous:true, evalScripts:true, parameters:'id=' + encodeURIComponent(element.id)});
+
+
+
+  			var side=$("tab"+element.id.substr(4))|| "null";
+  			var pattern=/^tab/;
+  			if(side!="null")
+  			{
+  				side.parentNode.removeChild(side);
+  	
+
+  			}
+  	  	
+  			element.parentNode.removeChild(element);
+  		
+  		}
+
+      
+  	}
+  );
+  //]]>
+
+
+</script>
+
+
+ <a class='hatch' href='#'>
+        <div id="item_2f4d6f76696573" class='item folder t- MOVIES' > 
+        <div onmouseover="showToolTip('Movies')" onmouseout="hideToolTip()" class='itemName' >
+        Movies 
+        
+        </div>
+        </div>
+        </a><script type='text/javascript'>
+        new Item("item_2f4d6f76696573",'folder',"/file/context?path=%2FMovies","/file/list?path=%2FMovies");
+        </script>
+
+<script type='text/javascript'>
+//type dir path accpet
+  //<![CDATA[
+  Droppables.add("item_2f4d6f76696573", 
+  	{
+  		 hoverclass:'bold', 
+  		onDrop:function(element,ele2){
+  			element.onclick=null;
+  		new Ajax.Updater('popdown', "/file/drop?path=%2F&amp;self_path=%2FMovies", {asynchronous:true, evalScripts:true, parameters:'id=' + encodeURIComponent(element.id)});
+
+
+
+  			var side=$("tab"+element.id.substr(4))|| "null";
+  			var pattern=/^tab/;
+  			if(side!="null")
+  			{
+  				side.parentNode.removeChild(side);
+  	
+
+  			}
+  	  	
+  			element.parentNode.removeChild(element);
+  		
+  		}
+
+      
+  	}
+  );
+  //]]>
+
+
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+new Draggable("item_2f4d6f76696573", {revert:true})
+//]]>
+</script>
+
+
+ <a class='hatch' href='#'>
+        <div id="item_2f4d75736963" class='item folder t- MUSIC' > 
+        <div onmouseover="showToolTip('Music')" onmouseout="hideToolTip()" class='itemName' >
+        Music 
+        
+        </div>
+        </div>
+        </a><script type='text/javascript'>
+        new Item("item_2f4d75736963",'folder',"/file/context?path=%2FMusic","/file/list?path=%2FMusic");
+        </script>
+
+<script type='text/javascript'>
+//type dir path accpet
+  //<![CDATA[
+  Droppables.add("item_2f4d75736963", 
+  	{
+  		 hoverclass:'bold', 
+  		onDrop:function(element,ele2){
+  			element.onclick=null;
+  		new Ajax.Updater('popdown', "/file/drop?path=%2F&amp;self_path=%2FMusic", {asynchronous:true, evalScripts:true, parameters:'id=' + encodeURIComponent(element.id)});
+
+
+
+  			var side=$("tab"+element.id.substr(4))|| "null";
+  			var pattern=/^tab/;
+  			if(side!="null")
+  			{
+  				side.parentNode.removeChild(side);
+  	
+
+  			}
+  	  	
+  			element.parentNode.removeChild(element);
+  		
+  		}
+
+      
+  	}
+  );
+  //]]>
+
+
+</script>
+
+
+ <a class='hatch' href='#'>
+        <div id="item_2f5069637475726573" class='item folder t- PICTURES' > 
+        <div onmouseover="showToolTip('Pictures')" onmouseout="hideToolTip()" class='itemName' >
+        Pictures 
+        
+        </div>
+        </div>
+        </a><script type='text/javascript'>
+        new Item("item_2f5069637475726573",'folder',"/file/context?path=%2FPictures","/file/list?path=%2FPictures");
+        </script>
+
+<script type='text/javascript'>
+//type dir path accpet
+  //<![CDATA[
+  Droppables.add("item_2f5069637475726573", 
+  	{
+  		 hoverclass:'bold', 
+  		onDrop:function(element,ele2){
+  			element.onclick=null;
+  		new Ajax.Updater('popdown', "/file/drop?path=%2F&amp;self_path=%2FPictures", {asynchronous:true, evalScripts:true, parameters:'id=' + encodeURIComponent(element.id)});
+
+
+
+  			var side=$("tab"+element.id.substr(4))|| "null";
+  			var pattern=/^tab/;
+  			if(side!="null")
+  			{
+  				side.parentNode.removeChild(side);
+  	
+
+  			}
+  	  	
+  			element.parentNode.removeChild(element);
+  		
+  		}
+
+      
+  	}
+  );
+  //]]>
+
+
+</script>
+
+
+ <a class='hatch' href='#'>
+        <div id="item_2f5369746573" class='item folder t- SITES' > 
+        <div onmouseover="showToolTip('Sites')" onmouseout="hideToolTip()" class='itemName' >
+        Sites 
+        
+        </div>
+        </div>
+        </a><script type='text/javascript'>
+        new Item("item_2f5369746573",'folder',"/file/context?path=%2FSites","/file/list?path=%2FSites");
+        </script>
+
+<script type='text/javascript'>
+//type dir path accpet
+  //<![CDATA[
+  Droppables.add("item_2f5369746573", 
+  	{
+  		 hoverclass:'bold', 
+  		onDrop:function(element,ele2){
+  			element.onclick=null;
+  		new Ajax.Updater('popdown', "/file/drop?path=%2F&amp;self_path=%2FSites", {asynchronous:true, evalScripts:true, parameters:'id=' + encodeURIComponent(element.id)});
+
+
+
+  			var side=$("tab"+element.id.substr(4))|| "null";
+  			var pattern=/^tab/;
+  			if(side!="null")
+  			{
+  				side.parentNode.removeChild(side);
+  	
+
+  			}
+  	  	
+  			element.parentNode.removeChild(element);
+  		
+  		}
+
+      
+  	}
+  );
+  //]]>
+
+
+</script>
+
+
+ <a class='hatch' href='#'>
+        <div id="item_2f2e7472617368" class='item folder t- TRASH' > 
+        <div onmouseover="showToolTip('Trash Can')" onmouseout="hideToolTip()" class='itemName' >
+        Trash Can 
+        
+        </div>
+        </div>
+        </a><script type='text/javascript'>
+        new Item("item_2f2e7472617368",'folder',"/file/context?path=%2F.trash","/file/list?path=%2F.trash");
+        </script>
+
+<script type='text/javascript'>
+//type dir path accpet
+  //<![CDATA[
+  Droppables.add("item_2f2e7472617368", 
+  	{
+  		 hoverclass:'bold', 
+  		onDrop:function(element,ele2){
+  			element.onclick=null;
+  		new Ajax.Updater('popdown', "/file/drop?path=%2F&amp;self_path=%2F.trash", {asynchronous:true, evalScripts:true, parameters:'id=' + encodeURIComponent(element.id)});
+
+
+
+  			var side=$("tab"+element.id.substr(4))|| "null";
+  			var pattern=/^tab/;
+  			if(side!="null")
+  			{
+  				side.parentNode.removeChild(side);
+  	
+
+  			}
+  	  	
+  			element.parentNode.removeChild(element);
+  		
+  		}
+
+      
+  	}
+  );
+  //]]>
+
+
+</script>
+
+
+
+	
+	
+		
+			
+		<script type='text/javascript'>
+			Droppables.clean();
+		</script>
+	
+	
+	
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+
+
+
+          <div id='sharealert'></div>
+
+
+        </div> <!--content -->
+          <div id="fade_b">
+  <div id="copyright">
+    <a href="http://www.ipo.uc.edu/index.cfm?fuseaction=home.infringement" target="_blank">Copyright</a> &copy; 2016,
+    <a href="http://www.uc.edu" target="_blank">University Of Cincinnati</a>
+    <span class="grey"> | </span>
+    <a href="http://www.uc.edu/ucit" target="_blank">UCIT</a>
+    <span class="grey"> | </span>
+    <!--<a href="< %=url_for(:action=>"search",:controller=>"wiki",:params=>{:id=>"Development",:miniview=>true})%>"  onclick="window.open(this.href,'new_window','height=350,width=700,scrollbars=no,');return false;" >< %=$VERSION%></a>
+    <span class="grey"> | </span>-->
+    <script TYPE="text/javascript">
+    <!--
+        emailID='ucfshelp'
+        emailServer='uc.edu'
+        document.write('<A href="mailto:' + emailID +'@'+emailServer + '" target="_blank">' +emailID +'@'+emailServer+ '</a>')
+     //-->
+    </script>
+    <noscript><a>(Enable JavaScript for email!)</a></noscript>
+  </div>
+</div>
+      </div> <!-- container -->
+    </div><!-- center-- >
+
+    </body>
+
+    </html>
